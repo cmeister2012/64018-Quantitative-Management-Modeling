@@ -1,0 +1,32 @@
+---
+title: "Transportation and Assignment"
+output:
+  html_document:
+    df_print: paged
+  html_notebook:
+    highlight: textmate
+    theme: cerulean
+  pdf_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+dir.create("images")
+```
+
+```{r}
+library(lpSolveAPI)
+x <- read.lp("AED.lp")
+x
+```
+
+
+```{r}
+solve(x)
+get.objective(x)
+get.variables(x)
+get.constraints(x)
+get.sensitivity.objex(x)
+get.sensitivity.rhs(x)
+```
