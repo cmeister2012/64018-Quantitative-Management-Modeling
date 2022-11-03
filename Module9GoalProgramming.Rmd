@@ -1,0 +1,31 @@
+---
+title: "Goal Programming"
+output:
+  html_document:
+    df_print: paged
+  html_notebook:
+    highlight: textmate
+    theme: cerulean
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+***
+This document contains the code for all examples in the Goal Programming module
+
+# Dewright Co.
+
+```{r}
+library(lpSolveAPI)
+gp <- read.lp("Example1.lp")
+gp
+```
+## Solve
+```{r}
+solve(gp)
+get.objective(gp)
+get.variables(gp)
+```
+
