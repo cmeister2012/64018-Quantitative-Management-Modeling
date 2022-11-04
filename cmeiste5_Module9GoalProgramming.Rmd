@@ -1,0 +1,44 @@
+---
+title: "Goal Programming"
+output:
+  html_document:
+    df_print: paged
+  html_notebook:
+    highlight: textmate
+    theme: cerulean
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(lpSolveAPI)
+gp <- read.lp("Module9.lp")
+gp
+```
+
+```{r}
+solve(gp)
+get.objective(gp)
+get.variables(gp)
+```
+
+Applying the simplex method to this formulation yields an optimal solution of x1 = 0, x2 = 0, x3 = 15, y1p = 25, y1m = 0, y2m = 0, y3m = 0.
+</br>
+</br>
+Profit = 20(0) + 15(0) + 25(15)</br>
+Profit = 375
+
+So: </br>
+C = 6(0) + 15(0) + 5(15) - 0 - 0 = 50;</br>
+D = 8(0) + 7(0) + 5(15) - 0 - 0 >= 75;</br>
+</br>
+So:</br>
+Maximize Z = 375 - 6(0) - 3(0), </br>
+Z = 375
+</br>
+</br>
+So: </br>
+Max: 20(0) + 15(0) + 25(15) - 6(25) - 6(0) - 3(0) </br>
+Max: 375 - 150 = 225 Net Profit
