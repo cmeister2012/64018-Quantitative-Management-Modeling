@@ -1,0 +1,35 @@
+---
+title: "Module11: Integer Programming"
+output:
+  html_document:
+    df_print: paged
+  html_notebook:
+    highlight: textmate
+    theme: cerulean
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(lpSolveAPI)
+x <- read.lp("Integer.lp")
+x
+```
+
+```{r}
+solve(x)
+get.objective(x)
+get.variables(x)
+```
+Total cost = $25,675 </br>
+</br>
+Workers available on Sunday = 18 </br>
+Workers available on Monday = 27 </br>
+Workers available on Tuesday = 24 </br>
+Workers available on Wednesday = 28 </br>
+Workers available on Thursday = 25 </br>
+Workers available on Friday = 24 </br>
+Workers available on Saturday = 19 </br>
+
