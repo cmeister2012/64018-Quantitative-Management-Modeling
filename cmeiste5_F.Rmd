@@ -1,0 +1,281 @@
+---
+title: "Meister Final Exam - Quantitative Management Modeling"
+author: "Curtis Meister"
+date: "2022-12-4"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(lpSolveAPI)
+knitr::opts_chunk$set(echo = TRUE)
+```
+## What factors affect the success of groups? Define three factors, e.g., GPA, gender, etc., that you feel affect the contributions that students make towards project success. 
+1. Class GPA\
+2. Class Attendance (0-10 days of class missed total, more than 10 results in a failure)\
+3. Class Year (Since this is primarily a Junior and Senior level course we only need two #'s.\
+  Junior = 0, Senior = 1)\
+
+## How do the above factors combine to define success? For example, is a person with high GPA the same as one with a more relevant background? Decide on how each of the factors contribute toward your definition of success.
+1. Class GPA: For obvious reasons if you have a higher GPA you are more likely to be a better student in comparison to someone with a lower GPA.\
+2. Class Attendance: In this case, the higher the number would be the worse off a student will be in the course. If you miss too many classes you are likely to have missed important learning materials.\
+3. Class Year: Not every student from every year can take the same class. This is why I simply used Junior and Senior level students in my problem. While it does not make a huge difference, I believe having one extra year of schooling could provide for a more knowledgeable student.\
+
+## How will you collect data for these factors? For this assignment, randomly generate sensible data for each of the above three defined factors. 
+I used the round function to automatically generate random samples for each of my requests. I used completely random numbers in the first GPA problem as this does not necessarily need to be a rounded number. I then made the following two whole numbers since you cannot miss part of a class or be between a Junior and Senior.
+
+## What are your decision variables? 
+1. Number of students\
+2. Number of students per group\
+
+## What is your objective function? 
+Unknown - will determine later in the problem...\
+
+## What are your constraints? 
+S1G1 + S2G1 + S3G1 + S4G1 + S5G1 + S6G1 + S7G1 + S8G1 + S9G1 + S10G1 + S11G1 + S12G1 = 3\
+S1G2 + S2G2 + S3G2 + S4G2 + S5G2 + S6G2 + S7G2 + S8G2 + S9G2 + S10G2 + S11G2 + S12G2 = 3\
+S1G3 + S2G3 + S3G3 + S4G3 + S5G3 + S6G3 + S7G3 + S8G3 + S9G3 + S10G3 + S11G3 + S12G3 = 3\
+S1G4 + S2G4 + S3G4 + S4G4 + S5G4 + S6G4 + S7G4 + S8G4 + S9G4 + S10G4 + S11G4 + S12G4 = 3\
+S1G1 + S1G2 + S1G3 + S1G4 = 1\
+S2G1 + S2G2 + S2G3 + S2G4 = 1\
+S3G1 + S3G2 + S3G3 + S3G4 = 1\
+S4G1 + S4G2 + S4G3 + S4G4 = 1\
+S5G1 + S5G2 + S5G3 + S5G4 = 1\
+S6G1 + S6G2 + S6G3 + S6G4 = 1\
+S7G1 + S7G2 + S7G3 + S7G4 = 1\
+S8G1 + S8G2 + S8G3 + S8G4 = 1\
+S9G1 + S9G2 + S9G3 + S9G4 = 1\
+S10G1 + S10G2 + S10G3 + S10G4 = 1\
+S11G1 + S11G2 + S11G3 + S11G4 = 1\
+S12G1 + S12G2 + S12G3 + S12G4 = 1\
+(S1G1 + S1G2 + S1G3 + S1G4) + (S2G1 + S2G2 + S2G3 + S2G4) + (S3G1 + S3G2 + S3G3 + S3G4) + (S4G1 + S4G2 + S4G3 + S4G4) + (S5G1 + S5G2 + S5G3 + S5G4) + (S6G1 + S6G2 + S6G3 + S6G4) + (S7G1 + S7G2 + S7G3 + S7G4) + (S8G1 + S8G2 + S8G3 + S8G4) + (S9G1 + S9G2 + S9G3 + S9G4) + (S10G1 + S10G2 + S10G3 + S10G4) + (S11G1 + S11G2 + S11G3 + S11G4) + (S12G1 + S12G2 + S12G3 + S12G4) = 12\
+
+
+```{r}
+round(runif(12, min = 0, max = 4), 2)
+```
+The numbers collected from this sample are as follows (different each time):\
+These are the class GPAs for each student\
+[1] 1.89 2.45 3.81 2.48 3.18 3.67 2.43 2.79 2.27 1.76 2.92 2.35
+
+```{r}
+round(runif(12, min = 0, max = 10), 0)
+```
+The numbers collected from this sample are as follows (different each time):\
+This is the classes missed for each student\
+[1] 10  6  6 10  1  1  3  6 10  7  1  1
+
+```{r}
+round(runif(12, min = 0, max = 1), 0)
+```
+The numbers collected from this sample are as follows (different each time):\
+This is the Class year, Junior or Senior\
+[1] 0 1 1 0 1 0 1 0 0 0 0 1
+
+Student 1: 1.89 GPA, 10 Classes Missed, Year = Junior\
+Student 2: 2.45 GPA, 6 Classes Missed, Year = Senior\
+Student 3: 3.81 GPA, 6 Classes Missed, Year = Senior\
+Student 4: 2.48 GPA, 10 Classes Missed, Year = Junior\
+Student 5: 3.18 GPA, 1 Class Missed, Year = Senior\
+Student 6: 3.67 GPA, 1 Class Missed, Year = Junior\
+Student 7: 2.43 GPA, 3 Classes Missed, Year = Senior\
+Student 8: 2.79 GPA, 6 Classes Missed, Year = Junior\
+Student 9: 2.27 GPA, 10 Classes Missed, Year = Junior\
+Student 10: 1.76 GPA, 7 Classes Missed, Year = Junior\
+Student 11: 2.92 GPA, 1 Class Missed, Year = Junior\
+Student 12: 2.35 GPA, 1 Class Missed, Year = Senior\
+
+I am going to multiple (2 classes per week X 16 weeks in a semester)\
+(32 Classes total - Classes Missed) / 32 =\
+Student 1: 22/32 = .6875 Total Class Attendence\
+Student 2: 26/32 = .8125 Total Class Attendence\
+Student 3: 26/32 = .8125 Total Class Attendence\
+Student 4: 22/32 = .6875 Total Class Attendence\
+Student 5: 31/32 = .9688 Total Class Attendence\
+Student 6: 31/32 = .9688 Total Class Attendence\
+Student 7: 29/32 = .9063 Total Class Attendence\
+Student 8: 26/32 = .8125 Total Class Attendence\
+Student 9: 22/32 = .6875 Total Class Attendence\
+Student 10: 25/32 = .7813 Total Class Attendence\
+Student 11: 31/32 = .9688 Total Class Attendence\
+Student 12: 31/32 = .9688 Total Class Attendence\
+
+Find Total Student Average Scores by doing the following:\
+Average = (.8592+1.4210+1.8742+1.0558+1.7163+1.5463+1.4454+1.1592+.9858+.8471+1.2963+1.4396)/12
+```{r}
+Average <- 1.304
+```
+We are now looking to see what students are above or below the average class values:\
+```{r}
+S1 <- .8592
+S1 <- S1 - Average
+S1
+```
+(1.89+.6875+0)/3 = Student 1 Average score
+
+```{r}
+S2 <- 1.4210
+S2 <- S2 - Average
+S2
+```
+(2.45+.8125+1)/3 = Student 2 Average score
+
+```{r}
+S3 <- 1.8742
+S3 <- S3 - Average
+S3
+```
+(3.81+.8125+1)/3 = Student 3 Average score
+
+```{r}
+S4 <- 1.0558
+S4 <- S4 - Average
+S4
+```
+(2.48+.6875+0)/3 = Student 4 Average score
+```{r}
+S5 <- 1.7163
+S5 <- S5 - Average
+S5
+```
+(3.18+.9688+1)/3 = Student 5 Average score
+```{r}
+S6 <- 1.5463
+S6 <- S6 - Average
+S6
+```
+(3.67+.9688+0)/3 = Student 6 Average score
+```{r}
+S7 <- 1.4454
+S7 <- S7 - Average
+S7
+```
+(2.43+.9063+1)/3 = Student 7 Average score
+```{r}
+S8 <- 1.1592
+S8 <- S8 - Average
+S8
+```
+(2.79+.8125+0)/3 = Student 8 Average score
+```{r}
+S9 <- .9858
+S9 <- S9 - Average
+S9
+```
+(2.27+.6875+0)/3 = Student 9 Average score
+```{r}
+S10 <- .8471
+S10 <- S10 - Average
+S10
+```
+(1.76+.7813+0)/3 = Student 10 Average score
+```{r}
+S11 <- 1.2963
+S11 <- S11 - Average
+S11
+```
+(2.92+.9688+0)/3 = Student 11 Average score
+```{r}
+S12 <- 1.4396
+S12 <- S12 - Average
+S12
+```
+(2.35+.9688+1)/3 = Student 12 Average score\
+-\
+Objective Function:\
+Min: .45 S1G1 + .45 S1G2 + .45 S1G3 + .45 S1G4 + .12 S2G1 + .12 S2G2 + .12 S2G3 + .12 S2G4 + .57 S3G1 + .57 S3G2 + .57 S3G3 + .57 S3G4 + .25 S4G1 + .25 S4G2 + .25 S4G3 + .25 S4G4 + .41 S5G1 + .41 S5G2 + .41 S5G3 + .41 S5G4 + .24 S6G1 + .24 S6G2 + .24 S6G3 + .24 S6G4 + .14 S7G1 + .14 S7G2 + .14 S7G3 + .14 S7G4 + .14 S8G1 + .14 S8G2 + .14 S8G3 + .14 S8G4 + .32 S9G1 + .32 S9G2 + .32 S9G3 + .32 S9G4 + .46 S10G1 + .46 S10G2 + .46 S10G3 + .46 S10G4 + .01 S11G1 + .01 S11G2 + .01 S11G3 + .01 S11G4 + .14 S12G1 + .14 S12G2 + .14 S12G3 + .14 S12G4
+
+```{r}
+lpfunction <- make.lp(0, 48)
+set.objfn(lpfunction, c(.45,.45,.45,.45,.12,.12,.12,.12,.57,.57,.57,.57,.25,.25,.25,.25,.41,.41,.41,.41,.24,.24,.24,.24,.14,.14,.14,.14,.14,.14,.14,.14,.32,.32,.32,.32,.46,.46,.46,.46,.01,.01,.01,.01,.14,.14,.14,.14))
+
+```
+
+First constraint where every group must have three total students:\
+```{r}
+add.constraint(lpfunction, c(1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0), "=", 3)
+add.constraint(lpfunction, c(0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0), "=", 3)
+add.constraint(lpfunction, c(0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0), "=", 3)
+add.constraint(lpfunction, c(0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1), "=", 3)
+```
+
+Now, the constraint where every student must only be in one group. We will make 12 total constraints for this rule.\
+```{r}
+add.constraint(lpfunction, c(1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0), "=", 1)
+add.constraint(lpfunction, c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1), "=", 1)
+```
+
+This constraint ensures every student is used with it equaling to 12 showing 12 students total are in the group.\
+```{r}
+add.constraint(lpfunction, c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1), "=", 12)
+```
+
+```{r}
+solve(lpfunction)
+get.objective(lpfunction)
+get.variables(lpfunction)
+```
+Results from get.variables will help us determine what students are in each group.\
+1:S1G1\
+0:S1G2\
+0:S1G3\
+0:S1G4\
+0:S2G1\
+0:S2G2\
+0:S2G3\
+1:S2G4\
+1:S3G1\
+0:S3G2\
+0:S3G3\
+0:S3G4\
+0:S4G1\
+1:S4G2\
+0:S4G3\
+0:S4G4\
+0:S5G1\
+1:S5G2\
+0:S5G3\
+0:S5G4\
+0:S6G1\
+0:S6G\
+1:S6G3\
+0:S6G4\
+0:S7G1\
+0:S7G2\
+0:S7G3\
+1:S7G4\
+0:S8G1\
+0:S8G2\
+1:S8G3\
+0:S8G4\
+0:S9G1\
+1:S9G2\
+0:S9G3\
+0:S9G4\
+1:S10G1\
+0:S10G2\
+0:S10G3\
+0:S10G4\
+0:S11G1\
+0:S11G2\
+0:S11G3\
+1:S11G4\
+0:S12G1\
+0:S12G2\
+1:S12G3\
+0:S12G4\
+\
+Final Results:\
+Group 1 Students: 1, 3, 10\
+Group 2 Students: 4, 5, 9\
+Group 3 Students: 6, 8, 12\
+Group 4 Students: 2, 7, 11\
